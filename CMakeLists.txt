@@ -20,11 +20,17 @@ set(CMAKE_AUTOMOC ON)
 add_executable(${TARGET_NAME})
 
 target_sources(${TARGET_NAME} PRIVATE
-    "job.hpp"
-    "main.cpp"
-    "worker.hpp")
+    "source/job.hpp"
+    "source/main.cpp"
+    "source/worker.hpp")
 
 target_link_libraries(${TARGET_NAME} PUBLIC
     Qt5::Core Qt5::Widgets spdlog::spdlog
     KF5::I18n KF5::JobWidgets
     ${MEDIACOPIER_LIB_TARGET_NAME})
+
+add_custom_command(
+    TARGET ${TARGET_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+            "${CMAKE_CURRENT_SOURCE_DIR}/test.sh"
+            "${CMAKE_CURRENT_BINARY_DIR}/test.sh")
