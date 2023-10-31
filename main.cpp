@@ -2,17 +2,18 @@
 #include <QGuiApplication>
 
 #include "job.hpp"
+#include "worker.hpp"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
     QGuiApplication::setDesktopFileName("org.kde.dolphin");
 
-    auto job = new KustomJob{25};
+    Worker worker{25};
 
     KUiServerV2JobTracker tracker{&app};
-    tracker.registerJob(job);
+    tracker.registerJob(new KustomJob{&worker});
 
-    job->start();
+    worker.start();
     app.exec();
 }
